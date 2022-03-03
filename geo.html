@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet</title>
+    <!-- Fichiers CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper ">
+            <a href="index.html" class="brand-logo"><img src="house.png" alt=""></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="gps.html">GPS</a></li>
+                <li><a href="gpx.html">GPX</a></li>
+                <li><a href="locate.html">Localisation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1>Géocodage et géodécodage</h1>
+    <div class="row box">
+        <div class="input-field col s6">
+            <input value="25 cité grand pré 43250 frugères les mines" id="adresse" type="text" class="validate">
+            <label class="active" for="first_name2">Adresse</label>
+            <button id="geocode">Trouver</button>
+        </div>
+        <div class="div_geo col s6">
+            <label for="">Récupérer une adresse complète en cliquant sur la carte</label>
+            <p id="resultat"></p>
+        </div>
+        
+    </div>
+
+    <div class="container z-depth-4">
+        <div id="carte"></div>
+
+    </div>
+
+    <script>
+        window.onload = function () {
+
+            let centre = {
+                lat: 46,
+                lng: 2
+            }
+            let macarte = L.map('carte').setView(centre, 6)
+            L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                attribution: 'données OpenSreetMap France',
+                minZoom: 1,
+                maxZoom: 20
+            }).addTo(macarte);
+
+            let geocodeBtn = document.getElementById('geocode')
+            geocodeBtn.addEventListener('click', function () {
+                let adresse = document.getElementById('adresse').value
+                console.log(adresse)
+                geoCode(adresse)
+            })
+            async function geoCode(adresse, e) {
+                let url =
+                    `https://nominatim.openstreetmap.org/search/?format=json&addressdetails=1&q=${adresse}`;
+                let resp = await fetch(url);
+                let datas = await resp.json();
+                console.log(datas)
+                let lat = parseFloat(datas[0].lat).toFixed(4)
+                let lng = parseFloat(datas[0].lon).toFixed(4)
+                console.log(lat, lng)
+                L.marker([lat, lng]).addTo(macarte)
+                macarte.flyTo([lat, lng], 18)
+            }
+            macarte.on('click', function(e){
+                
+
+                let lat = parseFloat(e.latlng.lat).toFixed(4)
+                let lng = parseFloat(e.latlng.lng).toFixed(4)
+                console.log(lat, lng)
+                L.marker([lat, lng]).addTo(macarte)
+                geoDecode(lat, lng)
+            })
+            async function geoDecode(lat, lng){
+                let resultat = document.getElementById('resultat')
+                resultat.innerHTML = "Veuillez patienter .."
+                let resp = await fetch (`https://nominatim.openstreetmap.org/reverse/?format=json&lat=${lat}&lon=${lng}`)
+                let d =await resp.json()
+                console.log("d",d)
+                if(d.display_name){
+                    resultat.innerHTML = d.display_name
+                }else{
+                    resultat.innerHTML ="oups pas trouvé"
+                }
+            }
+
+        }
+    </script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</body>
+
+</html>

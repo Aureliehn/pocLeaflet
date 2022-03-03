@@ -1,0 +1,31 @@
+h1{
+    text-align: center;
+}
+#carte{
+    height: 550px;
+    width: 1500px;
+}
+.container{
+    margin-top: 5em;
+   
+    display: flex;
+    justify-content: center;
+}
+.title{
+    font-weight: bold;
+}
+img{
+    width: 45px;
+    margin-top: 0.3em;
+    margin-left: 00.3em;
+}
+.div_geo{
+    margin-left: 5em;
+}
+.box{
+    display: flex;
+    text-align: center;
+
+    display: block;
+
+}

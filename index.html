@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>Entraînement Leaflet </h1>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Objectif</th>
+                    <th>Description</th>
+                    <th>Liens</th>
+                    <th>Résultat</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="pink-text title">Localisation</td>
+                    <td>Localiser facilement un utilisateur</td>
+                    <td>Localisation au clic sur la carte, géolocalisation</td>
+                    <td><a href="https://leafletjs.com/">Leaflet</a> </td>
+                    <td><a href="locate.html"
+                            class="btn-floating btn-large waves-effect waves-light pink lighten-2 z-depth-5">ici</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="orange-text title">Localisation (suite)</td>
+                    <td>Localiser facilement un utilisateur</td>
+                    <td>Géocodage = adresse ->lat/lng <br> et géodécodage = lat/lng -> adresse</td>
+                    <td><a href="https://nominatim.org/release-docs/develop/api/Search/">nominatim</a> </td>
+                    <td><a href="geo.html"
+                            class="btn-floating btn-large waves-effect waves-light orange lighten-2 z-depth-5">geo</a>
+                    </td>
+                </tr>
+                <td class="purple-text title">GPS</td>
+                <td>Pouvoir se servir de leaflet comme gps </td>
+                <td>Utilisation de Leaflet, leaflet-control-geocoder et leaflet-routing-machine</td>
+                <td>
+                    <a href="https://www.npmjs.com/package/leaflet-control-geocoder">Géocoder</a> <br>
+                    <a href="https://www.npmjs.com/package/leaflet-routing-machine">Routing machine</a>
+                </td>
+                <td><a href="gps.html"
+                        class="btn-floating btn-large waves-effect waves-light deep-purple lighten-3 z-depth-5">GPS</a>
+                </td>
+                </tr>
+                <tr>
+                    <td class="teal-text title">GPX</td>
+                    <td>Afficher une trace GPX sur une carte leaflet</td>
+                    <td>Utilisation de leaflet et leaflet gpx</td>
+                    <td><a href="https://www.npmjs.com/package/leaflet-gpx">Leaflet-gpx</a> </td>
+                    <td><a href="gpx.html"
+                            class="btn-floating btn-large waves-effect waves-light teal lighten-4 z-depth-5">GPX</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>

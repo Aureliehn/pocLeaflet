@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet</title>
+    <!-- Fichiers CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper ">
+            <a href="index.html" class="brand-logo"><img src="house.png" alt=""></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="gps.html">GPS</a></li>
+                <li><a href="gpx.html">GPX</a></li>
+                <li><a href="geo.html">GEO</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1>Localisation</h1>
+    <div class="box">
+        <label for="">Localiser à l'aide du bouton ou du clic sur la carte</label>
+        <a class="waves-effect waves-light btn" id="localisation">Localisation</a>
+    </div>
+
+    <!-- <button id="localisation">Localisation</button> -->
+    <div class="container z-depth-4">
+        <div id="carte"></div>
+    </div>
+
+    <script>
+        window.onload = function () {
+
+            let centre = {
+                lat: 46,
+                lng: 2
+            }
+            let macarte = L.map('carte').setView(centre, 6)
+            L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                attribution: 'données OpenSreetMap France',
+                minZoom: 1,
+                maxZoom: 20
+            }).addTo(macarte);
+
+            macarte.on('click', function (e) {
+                let lat = e.latlng.lat
+                let lng = e.latlng.lng
+
+                L.marker(e.latlng)
+                    .addTo(macarte)
+                    .bindPopup(`<h5>${lat}, ${lng}</h5>`)
+                    .openPopup()
+                macarte.flyTo(e.latlng, 11)
+                console.log(lat, lng)
+            })
+            // géolocalisation
+            var localisation = document.getElementById('localisation')
+            localisation.addEventListener('click', function () {
+                console.log('toto')
+                macarte.on('locationfound', onLocationFound)
+                macarte.on('locationerror', onLocationError)
+                macarte.locate({
+                    setView: true,
+                    maxZoom: 16
+                })
+            })
+
+            function onLocationError(e) {
+                console.log('trouver')
+            }
+
+            function onLocationFound(e) {
+                console.log(e.message)
+            }
+
+        }
+    </script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</body>
+
+</html>
